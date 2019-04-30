@@ -1,0 +1,9 @@
+package cmnd;
+
+struct command_t
+{
+	int16_t state;
+	boolean motor;
+	float speed;
+	boolean scan;
+}
