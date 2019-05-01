@@ -44,26 +44,36 @@ Hosting for Team Lidar software for ME205.
   - Remember to rest ISR pin to "none" when finished
 
 
-##The use of LCM
-###Lightweight Communication and Marshalling (LCM) Types
+## The use of LCM
+### Lightweight Communication and Marshalling (LCM) Types
   - LCM allows data types to be transmitted.
   - This allows the ease of interprocess/internodal communication, which allows each node to use a subset of variables from another node.
 
-##Programs and Their Functionality
-###lidar.cpp
+## Programs and Their Functionality
+### lidar.cpp
   - Uses a rp-LIDAR A2M6 API to communicate and use LIDAR
   - Program to initiate the LiDAR.
   - Functions such as starting the motor of the LIDAR and starting the scan are all in this program
 
 
-###lidarScan.cpp
+### lidarScan.cpp
   - Setting up the LIDAR subscriber which listens to the lidar commands from lidar.cpp
 
-###simulateData.cpp
+### simulateData.cpp
   - A test program written to test the viewer built in viewer.cpp
   - Produces 3D shapes such as a cube, helix and sine wave
 
-###transiever.py
+### transiever.py
   - Program written for the communication over radio between the Rapsberry Pi 3+ and the users laptop
   - Allows live feed of data to the user
+
+### viewer.cpp
+  - Subscriber set for subscribing to the viewerWidget node to handle messages from that program
+
+### viewerWidget.cpp
+  - Using the Qt library to set up a frame on which the collected data from the LiDAR can be drawn on
+  - Capable of sending commands to run the motor, reverse direction and stop it throughout the LIDAR run
+
+### virtualLidar.cpp
+  - Similar to simulateData.cpp, where sample scans and shapes are made.
 
