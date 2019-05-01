@@ -29,7 +29,12 @@ class ViewerWidget : public QGLWidget {
     void handleMessage(const lcm::ReceiveBuffer* rbuf,
   		const std::string &chan,
   		const xyzLdr::xyzLidar_t* msg);
-
+    std::pair<Point, Point> findMinMaxPair(std::vector<Point>* pointVector);
+    double avgZ(std::pair<Point, Point> minMaxPair);
+    Point max;
+    Point min;
+    Point paint(Point temp);
+    
   protected slots:
 	 void timer_callback(void);
          void socket_notifier_callback(void);

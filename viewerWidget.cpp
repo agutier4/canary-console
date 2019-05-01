@@ -20,6 +20,27 @@ _socket_notifier( lcm.getFileno(), QSocketNotifier::Read ){
   setMinimumSize( 320, 240 );
 }
 
+pair<Point, Point>
+ViewerWidget::
+findMinMaxPair(vector<Point>* pointVector){
+  if( points[points.size - 1].data.z > min ){
+    min = points[points.size - 1].data.z;
+  }
+  if( points[points.size - 1].data.z < max ){
+    max = points[points.size - 1].data.z;
+  }
+  auto p = make_pair(min, max);
+  return p;
+}
+
+double
+ViewerWidget::
+avgZ(pair<Point, Point> minMaxPair){
+  pair minMaxPair = findMinMaxPair(&points);
+  double avg_z = (minMaxPair.first.data.z + minMaxPair.second.data.z) /2;
+
+}
+
 void
 ViewerWidget::
 handleMessage(const lcm::ReceiveBuffer* rbuf,
@@ -32,7 +53,31 @@ handleMessage(const lcm::ReceiveBuffer* rbuf,
   printf("  y    = %.2f(m)\n",msg->y );
   printf("  z    = %.2f(m)\n",msg->z );
   printf("  quality     = %lld\n",(long long)msg->quality);
-  points.push_back(*(new Point(*msg,0.0,0.0,1.0)));
+  if(points.size == 0){
+    points.push_back(*(new Point(*msg,0.0,0.0,1.0)));
+  }
+  Point temp = Point(*msg, 1.0, 0.0, 0.0);
+  Point newTemp = paint(temp);
+  points.push_back(temp);
+}
+
+Point
+ViewerWidget::
+paint(Point temp){
+  pair p = findMinMaxPair(&points);
+  double avgValue = avgZ(p);
+  double deltaZ = temp.data.z - avgValue;
+  if(deltaZ > 0){
+    // temp.glColor4f(val, 1-val, 0, 1.0);
+    temp.r = deltaZ/avgValue;
+    temp.g = (1 - deltaZ)/avgValue;
+    temp.b = 0;
+  }else{
+    temp.r = 0;
+    temp.g = (1 - abs(deltaZ))/avgValue;
+    temp.b = abs(deltaZ/avgValue);
+  }
+  return temp;
 }
 
 void
