@@ -16,7 +16,7 @@ scanCube(){
   			lidarPoint.x = i;
   			lidarPoint.y = j;
   			lidarPoint.z = k;
-  			lcm.publish("DATA_STREAM", &lidarPoint);
+  			lcm.publish("LIDAR_STREAM", &lidarPoint);
   			usleep(5000);
   		}
   	}
@@ -37,7 +37,7 @@ scanCircle(){
       lidarPoint.x = r*cos(i*M_PI/180);
       lidarPoint.y = r*sin(i*M_PI/180);
       lidarPoint.z = j;
-      lcm.publish("DATA_STREAM", &lidarPoint);
+      lcm.publish("LIDAR_STREAM", &lidarPoint);
       usleep(5000);
     }
   }

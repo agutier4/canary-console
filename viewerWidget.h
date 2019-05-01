@@ -12,6 +12,7 @@
 
 //Used to store points to plot
 struct Point{
+  Point(){};
   Point(xyzLdr::xyzLidar_t _data, double _r = 1.0, double _g = 0.0, double _b = 0.0)
     :data(_data),r(_r), g(_g), b(_b){};
   xyzLdr::xyzLidar_t data;
@@ -29,12 +30,7 @@ class ViewerWidget : public QGLWidget {
     void handleMessage(const lcm::ReceiveBuffer* rbuf,
   		const std::string &chan,
   		const xyzLdr::xyzLidar_t* msg);
-    std::pair<Point, Point> findMinMaxPair(std::vector<Point>* pointVector);
-    double avgZ(std::pair<Point, Point> minMaxPair);
-    Point max;
-    Point min;
-    Point paint(Point temp);
-    
+
   protected slots:
 	 void timer_callback(void);
          void socket_notifier_callback(void);
@@ -51,6 +47,10 @@ class ViewerWidget : public QGLWidget {
     int _counter;
     bool orbit = false;
     double zoom = 5;
+    std::pair<Point, Point> _minMaxPair;
+    void findMinMaxPair(std::vector<Point> pointVector);
+    double avgZ( void );
+    Point paint(Point temp);
 
   };
 

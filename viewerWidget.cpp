@@ -20,25 +20,22 @@ _socket_notifier( lcm.getFileno(), QSocketNotifier::Read ){
   setMinimumSize( 320, 240 );
 }
 
-pair<Point, Point>
+void
 ViewerWidget::
-findMinMaxPair(vector<Point>* pointVector){
-  if( points[points.size - 1].data.z > min ){
-    min = points[points.size - 1].data.z;
+findMinMaxPair(vector<Point> pointVector){
+  if( points[points.size() - 1].data.z > _minMaxPair.first.data.z ){
+    _minMaxPair.first = points[points.size() - 1];
   }
-  if( points[points.size - 1].data.z < max ){
-    max = points[points.size - 1].data.z;
+  if( points[points.size() - 1].data.z < _minMaxPair.second.data.z ){
+    _minMaxPair.second = points[points.size() - 1];
   }
-  auto p = make_pair(min, max);
-  return p;
 }
 
 double
 ViewerWidget::
-avgZ(pair<Point, Point> minMaxPair){
-  pair minMaxPair = findMinMaxPair(&points);
-  double avg_z = (minMaxPair.first.data.z + minMaxPair.second.data.z) /2;
-
+avgZ( void ){
+  double avg_z = (_minMaxPair.first.data.z + _minMaxPair.second.data.z) /2;
+  return avg_z;
 }
 
 void
@@ -53,22 +50,22 @@ handleMessage(const lcm::ReceiveBuffer* rbuf,
   printf("  y    = %.2f(m)\n",msg->y );
   printf("  z    = %.2f(m)\n",msg->z );
   printf("  quality     = %lld\n",(long long)msg->quality);
-  if(points.size == 0){
+  if(points.size() == 0){
+    cout << "empty" << endl;
     points.push_back(*(new Point(*msg,0.0,0.0,1.0)));
   }
   Point temp = Point(*msg, 1.0, 0.0, 0.0);
   Point newTemp = paint(temp);
-  points.push_back(temp);
+  points.push_back(newTemp);
 }
 
 Point
 ViewerWidget::
 paint(Point temp){
-  pair p = findMinMaxPair(&points);
-  double avgValue = avgZ(p);
+  findMinMaxPair(points);
+  double avgValue = avgZ();
   double deltaZ = temp.data.z - avgValue;
   if(deltaZ > 0){
-    // temp.glColor4f(val, 1-val, 0, 1.0);
     temp.r = deltaZ/avgValue;
     temp.g = (1 - deltaZ)/avgValue;
     temp.b = 0;
@@ -129,6 +126,7 @@ paintGL(){
 
   //draw points stored in viewerWidget.points
   for (auto it = points.cbegin(); it != points.cend(); it++){
+    cout << "it->r" << it->r << endl;
     glColor4f(it->r,it->g,it->b,1.0);
     glVertex3f(it->data.x,it->data.y,it->data.z);
   }
