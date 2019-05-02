@@ -65,6 +65,8 @@ class SerialHandler:
 			packet[6] = ord(speed[3])
 		if(msg.scan):
 			packet[2] = packet[2] | 0x10
+		if(msg.stop):
+			packet[2] = packet[2] | 0x40
 
 		packet[7] = self.getChecksum(packet)
 		self.conn.write(packet)

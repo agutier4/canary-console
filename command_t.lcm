@@ -6,4 +6,5 @@ struct command_t
 	boolean motor;
 	float speed;
 	boolean scan;
+	boolean stop;
 }

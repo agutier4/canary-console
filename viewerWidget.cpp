@@ -178,12 +178,14 @@ keyPressEvent(QKeyEvent *event){
       command.motor = true;
       command.speed = 4.2;
       command.scan = true;
+      command.stop = false;
       lcm.publish("COMMAND_STREAM", &command);
     }else if(event->key() == Qt::Key_E){
       cmnd::command_t command;
       command.state = 0x02;
       command.motor = true;
       command.scan = true;
+      command.stop = true;
       lcm.publish("COMMAND_STREAM", &command);
     }else if(event->key() == Qt::Key_R){
       cmnd::command_t command;
@@ -191,7 +193,15 @@ keyPressEvent(QKeyEvent *event){
       command.motor = true;
       command.speed = -4.2;
       command.scan = true;
+      command.stop = false;
       lcm.publish("COMMAND_STREAM", &command);
+    }else if(event->key() == Qt::Key_P){
+      cmnd::command_t command;
+      command.state = 0x02;
+      command.motor = true;
+      command.speed = 0.0;
+      command.scan = true;
+      command.stop = false;
     }
 }
 
