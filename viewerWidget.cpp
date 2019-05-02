@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include <GL/glut.h>
+#include <GL/freeglut.h>
 #include "viewerWidget.h"
 
 using namespace std;
@@ -193,3 +194,55 @@ keyPressEvent(QKeyEvent *event){
       lcm.publish("COMMAND_STREAM", &command);
     }
 }
+
+// void
+// ViewerWidget::
+// theButtonCallBack(){
+//   cout << "Button pressed" <<endl;
+// }
+
+// void
+// ViewerWidget::
+// Font(void *font,char *text,int x,int y)
+// {
+// 	glRasterPos2i(x, y);
+
+// 	while( *text != '\0' )
+// 	{
+// 		glutBitmapCharacter( font, *text );
+// 		++text;
+// 	}
+// }
+
+// void
+// ViewerWidget::
+// ButtonDraw(Button *b){
+//   int fontx;
+//   int fonty;
+
+//   if(b){
+//     if(b->highlighted){
+//       glColor3f(0.7f,0.7f,0.8f);
+//     }else{
+//       glColor3f(0.6f,0.6f,0.6f);
+//     }
+
+//     glBegin(GL_QUADS); //draw button
+// 			glVertex2i( b->x, b->y );
+// 			glVertex2i( b->x, b->y+b->h );
+// 			glVertex2i( b->x+b->w, b->y+b->h );
+// 			glVertex2i( b->x+b->w, b->y );
+// 		glEnd();
+
+//     glLineWidth(3.0);
+
+//       /*
+// 		 *	Calculate the x and y coords for the text string in order to center it.
+// 		 */
+// 		fontx = b->x + (b->w /*- glutBitmapLength(GLUT_BITMAP_HELVETICA_10, b->label)*/) / 2 ;
+// 		fonty = b->y + (b->h+10)/2;
+
+// 		glColor3f(1,1,1);
+// 		Font(GLUT_BITMAP_HELVETICA_10,b->label,fontx,fonty);
+//   }
+// }

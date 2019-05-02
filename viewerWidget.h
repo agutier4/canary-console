@@ -10,6 +10,32 @@
 #include "cmnd/command_t.hpp"
 #include <vector>
 
+// struct Mouse{
+//   int x;
+//   int y;
+//   int lmb;
+//   int rmb;
+
+//   int xpress; //x location of pressing
+//   int ypress; //y location of pressing
+// };
+
+// typedef struct Mouse Mouse;
+
+// typedef void(*ButtonCallback)();
+
+// struct Button{
+//   int   x;							/* top left x coord of the button */
+// 	int   y;							/* top left y coord of the button */
+// 	int   w;							/* the width of the button */
+// 	int   h;							/* the height of the button */
+// 	int	  state;						/* the state, 1 if pressed, 0 otherwise */
+// 	int	  highlighted;					/* is the mouse cursor over the control? */
+// 	char* label;						/* the text label of the button */
+// };
+
+// typedef struct Button Button;
+
 //Used to store points to plot
 struct Point{
   Point(){};
@@ -30,6 +56,9 @@ class ViewerWidget : public QGLWidget {
     void handleMessage(const lcm::ReceiveBuffer* rbuf,
   		const std::string &chan,
   		const xyzLdr::xyzLidar_t* msg);
+    void theButtonCallBack();
+    // Mouse testMouse = {0, 0, 0, 0};
+    // Button velUp = {5,5, 100,25, 0,0, "Button"};
 
   protected slots:
 	 void timer_callback(void);
@@ -47,11 +76,17 @@ class ViewerWidget : public QGLWidget {
     int _counter;
     bool orbit = false;
     double zoom = 5;
+
+    //painting
     std::pair<Point, Point> _minMaxPair;
     void findMinMaxPair(std::vector<Point> pointVector);
     double avgZ( void );
     Point paint(Point temp);
-
+    // //buttons
+    // void Font( void *font, char *text, int x, int y );
+    // // bool ButtonClickTest(Button* b,int x,int y);
+    // void ButtonDraw(Button *b);
+    // void Draw2D();
   };
 
 #endif /* VIEWER_WIDGET_H */
